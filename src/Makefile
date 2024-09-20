@@ -42,19 +42,13 @@ all :
 ## -- Project setup
 ## -------------------------------------------------------------------------------------------------
 dirs :
-	@printf $(YELLOW)
-	@printf "[  DIR] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR);
 	mkdir -p ../build/
 
-	@printf $(YELLOW)
-	@printf "[  DIR] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
 	mkdir -p ../build/dep/
 
-	@printf $(YELLOW)
-	@printf "[  DIR] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
 	mkdir -p ../build/obj/
 
 
@@ -62,9 +56,7 @@ dirs :
 ## -- Build dependencies
 ## -------------------------------------------------------------------------------------------------
 ../build/dep/%.d : %.cpp
-	@printf $(YELLOW)
-	@printf "[  DEP] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
 	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
 
 ifneq (clean,$(filter clean,$(MAKECMDGOALS)))
@@ -82,23 +74,16 @@ build :
 	@$(MAKE) --no-print-directory $(OBJ)
 	
 	@# Link object files
-	@printf $(YELLOW)
-	@printf "[ LINK] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(YELLOW) "[ LINK] " $(RESET_COLOR)
 	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
-
-	@printf $(GREEN)
-	@printf "[BUILD] Executable built\n"
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(GREEN) "[BUILD] Executable built" $(RESET_COLOR)
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -- Compile source files into object files
 ## -------------------------------------------------------------------------------------------------
 ../build/obj/%.o : %.cpp
-	@printf $(YELLOW)
-	@printf "[CMPLE] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) -c $< -o $@
 
 
@@ -106,9 +91,7 @@ build :
 ## -- Run executable
 ## -------------------------------------------------------------------------------------------------
 run :
-	@printf $(BLUE)
-	@printf "[  RUN] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(BLUE) "[  RUN] " $(RESET_COLOR)
 	./$(EXEC)
 
 
@@ -116,25 +99,17 @@ run :
 ## -- Clean up
 ## -------------------------------------------------------------------------------------------------
 clean :
-	@printf $(RED)
-	@printf "[CLEAN] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
 	rm -rf $(DEP)
 
-	@printf $(RED)
-	@printf "[CLEAN] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
 	rm -rf $(OBJ)
 
-	@printf $(RED)
-	@printf "[CLEAN] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
 	rm -rf $(EXEC)
 
 purge :
-	@printf $(RED)
-	@printf "[CLEAN] "
-	@printf $(RESET_COLOR)
+	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
 	rm -rf ../build/
 
 
