@@ -42,7 +42,7 @@ all :
 ## -- Project setup
 ## -------------------------------------------------------------------------------------------------
 dirs :
-	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR);
+	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
 	mkdir -p ../build/
 
 	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
