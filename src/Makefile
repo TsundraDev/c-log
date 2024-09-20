@@ -31,11 +31,10 @@ EXEC = ../build/c-log
 ## -------------------------------------------------------------------------------------------------
 ## -- Commands + default
 ## -------------------------------------------------------------------------------------------------
-.PHONY : all dirs depend build run clean purge
+.PHONY : all dirs build run clean purge
 
 all :
 	@$(MAKE) --no-print-directory dirs
-	@$(MAKE) --no-print-directory depend
 	@$(MAKE) --no-print-directory build
 
 
@@ -44,29 +43,34 @@ all :
 ## -------------------------------------------------------------------------------------------------
 dirs :
 	@printf $(YELLOW)
-	@printf "[  DIR] Creating project directory\n"
+	@printf "[  DIR] "
 	@printf $(RESET_COLOR)
 	mkdir -p ../build/
+
+	@printf $(YELLOW)
+	@printf "[  DIR] "
+	@printf $(RESET_COLOR)
 	mkdir -p ../build/dep/
+
+	@printf $(YELLOW)
+	@printf "[  DIR] "
+	@printf $(RESET_COLOR)
 	mkdir -p ../build/obj/
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -- Build dependencies
 ## -------------------------------------------------------------------------------------------------
-depend :
-	@printf $(YELLOW)
-	@printf "[  DEP] Building dependencies\n"
-	@printf $(RESET_COLOR)
-	@$(MAKE) --no-print-directory $(DEP)
-
 ../build/dep/%.d : %.cpp
+	@printf $(YELLOW)
+	@printf "[  DEP] "
+	@printf $(RESET_COLOR)
 	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
 
 ifneq (clean,$(filter clean,$(MAKECMDGOALS)))
-ifneq (purge,$(filter purge,$(MAKECMDGOALS)))
--include $(DEP)
-endif
+  ifneq (purge,$(filter purge,$(MAKECMDGOALS)))
+    -include $(DEP)
+  endif
 endif
 
 
@@ -75,14 +79,11 @@ endif
 ## -------------------------------------------------------------------------------------------------
 build :
 	@# Compile source files
-	@printf $(YELLOW)
-	@printf "[COMPL] Compiling source files\n"
-	@printf $(RESET_COLOR)
 	@$(MAKE) --no-print-directory $(OBJ)
 	
 	@# Link object files
 	@printf $(YELLOW)
-	@printf "[ LINK] Linking object files\n"
+	@printf "[ LINK] "
 	@printf $(RESET_COLOR)
 	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
 
@@ -95,6 +96,9 @@ build :
 ## -- Compile source files into object files
 ## -------------------------------------------------------------------------------------------------
 ../build/obj/%.o : %.cpp
+	@printf $(YELLOW)
+	@printf "[CMPLE] "
+	@printf $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) -c $< -o $@
 
 
@@ -103,9 +107,9 @@ build :
 ## -------------------------------------------------------------------------------------------------
 run :
 	@printf $(BLUE)
-	@printf "[  RUN] Run executable\n"
+	@printf "[  RUN] "
 	@printf $(RESET_COLOR)
-	@./$(EXEC)
+	./$(EXEC)
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -113,15 +117,23 @@ run :
 ## -------------------------------------------------------------------------------------------------
 clean :
 	@printf $(RED)
-	@printf "[CLEAN] Removing dependencies, object files and executable\n"
+	@printf "[CLEAN] "
 	@printf $(RESET_COLOR)
 	rm -rf $(DEP)
+
+	@printf $(RED)
+	@printf "[CLEAN] "
+	@printf $(RESET_COLOR)
 	rm -rf $(OBJ)
+
+	@printf $(RED)
+	@printf "[CLEAN] "
+	@printf $(RESET_COLOR)
 	rm -rf $(EXEC)
 
 purge :
 	@printf $(RED)
-	@printf "[CLEAN] Removing build directory\n"
+	@printf "[CLEAN] "
 	@printf $(RESET_COLOR)
 	rm -rf ../build/
 
