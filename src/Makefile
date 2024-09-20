@@ -31,7 +31,7 @@ EXEC = ../build/c-log
 ## -------------------------------------------------------------------------------------------------
 ## -- Commands + default
 ## -------------------------------------------------------------------------------------------------
-.PHONY : all dirs build run clean purge
+.PHONY : all dirs depend build run clean purge
 
 all :
 	@$(MAKE) --no-print-directory dirs
@@ -55,15 +55,13 @@ dirs :
 ## -------------------------------------------------------------------------------------------------
 ## -- Build dependencies
 ## -------------------------------------------------------------------------------------------------
+depend : $(DEP)
+
 ../build/dep/%.d : %.cpp
 	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
 	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
 
-ifneq (clean,$(filter clean,$(MAKECMDGOALS)))
-  ifneq (purge,$(filter purge,$(MAKECMDGOALS)))
-    -include $(DEP)
-  endif
-endif
+-include $(DEP)
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -71,9 +69,11 @@ endif
 ## -------------------------------------------------------------------------------------------------
 build :
 	@# Compile source files
+	@printf "%b%b%b" $(YELLOW) "[CMPIL] Start compiling\n" $(RESET_COLOR)
 	@$(MAKE) --no-print-directory $(OBJ)
 	
 	@# Link object files
+	@printf "%b%b%b" $(YELLOW) "[ LINK] Start linking\n" $(RESET_COLOR)
 	@printf "%b%b%b" $(YELLOW) "[ LINK] " $(RESET_COLOR)
 	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
 	@printf "%b%b%b" $(GREEN) "[BUILD] Executable built" $(RESET_COLOR)
