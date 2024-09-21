@@ -1,10 +1,12 @@
-#ifndef __TOOLS__LOG_HPP__
-#define __TOOLS__LOG_HPP__
+#ifndef __TOOLS__LOG__LOGTAG_HPP__
+#define __TOOLS__LOG__LOGTAG_HPP__
+
+#include <string>
 
 // -------------------------------------------------------------------------------------------------
-// -- Log header files
+// -- LogTag class
 // -------------------------------------------------------------------------------------------------
-#include <tools/Log/LogLevel.hpp>
-#include <tools/Log/LogTag.hpp>
+typedef std::string LogTag;
+
 
 #endif
