@@ -7,6 +7,7 @@
 
 #include <tools/Log/LogEntry.hpp>
 #include <tools/Log/LogLevel.hpp>
+#include <tools/Log/Logger.hpp>
 
 class Logger;
 
@@ -75,6 +76,13 @@ bool LogBook::removeLogger(Logger* logger) {
 
   fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to remove unknown Logger\n");
   return false;
+}
+
+void LogBook::clearLogger() {
+  while (!m_logger_list.empty()) {
+    m_logger_list.front()->removeLogBook(this);
+    m_logger_list.pop_front();
+  }
 }
 
 

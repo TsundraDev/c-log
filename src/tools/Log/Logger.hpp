@@ -17,7 +17,7 @@ private:
 
   std::list<LogBook*> m_logbook_list;
 
-private:
+public:
   // Logger constructor and destructor
   Logger();
   Logger(LogTag tag);

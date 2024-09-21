@@ -30,6 +30,7 @@ public:
   // Manage Logger list
   bool addLogger(Logger* logger);
   bool removeLogger(Logger* logger);
+  void clearLogger();
 
   // Manage LogEntry
   void log(LogLevel level, LogTag tag, std::string message);
