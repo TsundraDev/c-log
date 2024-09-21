@@ -125,8 +125,8 @@ std::string LogBook::logEntryString(LogEntry log_entry) {
     case LogLevel::DEBUG   : buffer = "[DEBUG] "; break;
   }
 
-  if (log_entry.tag != "") {
-    buffer += "[" + log_entry.tag + "] ";
+  if (log_entry.tag.module() != "") {
+    buffer += log_entry.tag.getString() + " ";
   }
 
   buffer += log_entry.message;
