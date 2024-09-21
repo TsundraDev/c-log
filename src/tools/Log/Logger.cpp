@@ -41,6 +41,7 @@ bool Logger::addLogBook(LogBook* logbook) {
     }
   }
 
+  logbook->addLogger(this);
   m_logbook_list.push_back(logbook);
   return true;
 
@@ -55,6 +56,7 @@ bool Logger::removeLogBook(LogBook* logbook) {
   for (it = m_logbook_list.begin(); it != m_logbook_list.end(); it++) {
     if ((*it) == logbook) {
       // LogBook found
+      (*it)->removeLogger(this);
       m_logbook_list.erase(it);
       return true;
     }
