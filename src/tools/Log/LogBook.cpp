@@ -1,0 +1,134 @@
+#include "LogBook.hpp"
+
+#include <cassert>
+#include <list>
+#include <queue>
+#include <string>
+
+#include <tools/Log/LogEntry.hpp>
+#include <tools/Log/LogLevel.hpp>
+
+class Logger;
+
+// -------------------------------------------------------------------------------------------------
+// -- LogBook constructor and destructor
+// -------------------------------------------------------------------------------------------------
+LogBook::LogBook(LogLevel level) :
+  m_level(level),
+  m_outfile(""),
+  m_logger_list(std::list<Logger*>()),
+  m_logbook(std::queue<LogEntry>()) {}
+
+LogBook::LogBook(LogLevel level, std::string outfile) :
+  m_level(level),
+  m_outfile(outfile),
+  m_logger_list(std::list<Logger*>()),
+  m_logbook(std::queue<LogEntry>()) {}
+
+LogBook::~LogBook() {
+  // Sanity check
+  assert(m_logger_list.empty());
+
+  this->output();
+
+  // Check for lost data
+  if (!m_logbook.empty()) {
+    fprintf(stderr, "[ERROR] [C-LOG] [LOGBOOK] - Deleting LogBook with remaining logs\n");
+  }
+}
+
+
+// -------------------------------------------------------------------------------------------------
+// -- Manage Logger list
+// -------------------------------------------------------------------------------------------------
+bool LogBook::addLogger(Logger* logger) {
+  // Sanity check
+  assert(logger != nullptr);
+
+  // Check for duplicate
+  std::list<Logger*>::iterator it;
+  for (it = m_logger_list.begin(); it != m_logger_list.end(); it++) {
+    if ((*it) == logger) {
+      // Duplicate found
+      fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to add duplicate Logger to LogBook\n");
+      return false;
+    }
+  }
+
+  m_logger_list.push_back(logger);
+  return true;
+}
+
+bool LogBook::removeLogger(Logger* logger) {
+  // Sanity check
+  assert(logger != nullptr);
+
+  // Find Logger
+  std::list<Logger*>::iterator it;
+  for (it = m_logger_list.begin(); it != m_logger_list.end(); it++) {
+    if ((*it) == logger) {
+      // Logger found
+      m_logger_list.erase(it);
+      return true;
+    }
+  }
+
+  fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to remove unknown Logger from LogBook\n");
+  return false;
+}
+
+
+// -------------------------------------------------------------------------------------------------
+// -- Manage LogEntry
+// -------------------------------------------------------------------------------------------------
+void LogBook::log(LogLevel level, LogTag tag, std::string message) {
+  LogEntry log_entry = {level, tag, message};
+  m_logbook.push(log_entry);
+}
+
+bool LogBook::output() {
+  // Open file
+  FILE* f = (m_outfile == "") ? stderr : fopen(m_outfile.c_str(), "a");
+  if (f == nullptr) {
+    fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Unable to open file %s\n", m_outfile.c_str());
+    return false;
+  }
+
+  // Output LogEntry
+  while (!m_logbook.empty()) {
+    LogEntry log_entry = m_logbook.front();
+
+    // Check if log is important
+    if (log_entry.level.important(m_level)) {
+      // Attempt to output
+      if (fprintf(f, "%s\n", this->logEntryString(log_entry).c_str()) < 0) {
+        fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Unable to write to file %s\n", m_outfile.c_str());
+        if (f != stderr) fclose(f);
+        return false;
+      }
+    }
+
+    m_logbook.pop();
+  }
+
+  if (f != stderr) fclose(f);
+  return true;
+}
+
+std::string LogBook::logEntryString(LogEntry log_entry) {
+  std::string buffer;
+  switch (log_entry.level) {
+    case LogLevel::FATAL   : buffer = "[FATAL] "; break;
+    case LogLevel::ERROR   : buffer = "[ERROR] "; break;
+    case LogLevel::WARNING : buffer = "[ WARN] "; break;
+    case LogLevel::INFO    : buffer = "[ INFO] "; break;
+    case LogLevel::DEBUG   : buffer = "[DEBUG] "; break;
+  }
+
+  if (log_entry.tag != "") {
+    buffer += "[" + log_entry.tag + "] ";
+  }
+
+  buffer += log_entry.message;
+  return buffer;
+}

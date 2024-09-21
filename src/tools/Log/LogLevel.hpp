@@ -15,6 +15,11 @@ public:
 
 private:
   Enum m_e;
+
+public:
+  bool important(Enum log_check) {
+    return m_e <= log_check;
+  }
 };
 
 #endif

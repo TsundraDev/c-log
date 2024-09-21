@@ -23,6 +23,7 @@ LD_FLAGS =
 ## -- Generated files
 ## -------------------------------------------------------------------------------------------------
 SRC  = main.cpp
+SRC += tools.cpp
 
 DEP  = $(patsubst %.cpp,../build/dep/%.d,$(SRC))
 OBJ  = $(patsubst %.cpp,../build/obj/%.o,$(SRC))
@@ -62,6 +63,10 @@ depend : $(DEP)
 	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
 	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
 
+../build/dep/%.d : tools/%.cpp
+	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
+	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
+
 -include $(DEP)
 
 
@@ -84,6 +89,10 @@ build :
 ## -- Compile source files into object files
 ## -------------------------------------------------------------------------------------------------
 ../build/obj/%.o : %.cpp
+	@printf "%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
+	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
+
+../build/obj/%.o : tools/%.cpp
 	@printf "%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
