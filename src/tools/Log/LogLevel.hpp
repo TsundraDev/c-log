@@ -6,7 +6,7 @@
 // -------------------------------------------------------------------------------------------------
 class LogLevel {
 public:
-  enum Enum {FATAL, ERROR, WARNING, INFO, DEBUG};
+  enum Enum {FATAL, ERROR, WARN, INFO, DEBUG};
 
   LogLevel(Enum e) : m_e(e) {}
   operator Enum() const { return m_e; }

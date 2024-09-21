@@ -27,9 +27,11 @@ public:
   LogBook(LogLevel level, std::string outfile);
   ~LogBook();
 
-  // Getters
-  LogLevel    level()   { return m_level;   }
-  std::string outfile() { return m_outfile; }
+  // Getters and setters
+  LogLevel    level()                         { return m_level;       }
+  std::string outfile()                       { return m_outfile;     }
+  void        setLevel(LogLevel level)        { m_level = level;      }
+  void        setOutfile(std::string outfile) { m_outfile = outfile;  }
 
   // Manage Logger list
   bool addLogger(Logger* logger);

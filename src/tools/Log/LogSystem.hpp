@@ -25,9 +25,16 @@ private:
   std::vector<std::pair<bool, LogBook>> m_logbook_list;
   std::vector<std::pair<bool, Logger>>  m_logger_list;
 
+  static bool    m_init;
+  static LogBook m_logbook;
+  static Logger  m_logger;
+
 public:
   LogSystem();
   ~LogSystem();
+
+  // Set default Logging
+  void setLogLevel(LogLevel level);
 
   // Manage LogBook list
   LogBookID addLogBook(LogLevel level);
@@ -52,9 +59,19 @@ public:
 
   LOGSYSTEM_LOG_FUNCTION_DECLARATION(fatal);
   LOGSYSTEM_LOG_FUNCTION_DECLARATION(error);
-  LOGSYSTEM_LOG_FUNCTION_DECLARATION(warning);
+  LOGSYSTEM_LOG_FUNCTION_DECLARATION(warn);
   LOGSYSTEM_LOG_FUNCTION_DECLARATION(info);
   LOGSYSTEM_LOG_FUNCTION_DECLARATION(debug);
+
+  #define LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(func_name) \
+  template<typename... Args> \
+  void func_name(const std::format_string<Args...> fmt, Args&&... args);
+
+  LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(fatal);
+  LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(error);
+  LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(warn);
+  LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(info);
+  LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(debug);
 
   bool output(LogBookID logbook);
   
@@ -72,10 +89,22 @@ void LogSystem::func_name(LoggerID logger, const std::format_string<Args...> fmt
                                    std::vformat(fmt.get(), std::make_format_args(args...))); \
 }
 
-LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(fatal,   LogLevel::FATAL);
-LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(error,   LogLevel::ERROR);
-LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(warning, LogLevel::WARNING);
-LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(info,    LogLevel::INFO);
-LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(debug,   LogLevel::DEBUG);
+LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(fatal, LogLevel::FATAL);
+LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(error, LogLevel::ERROR);
+LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(warn,  LogLevel::WARN);
+LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(info,  LogLevel::INFO);
+LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(debug, LogLevel::DEBUG);
+
+#define LOGSYSTEM_DEFAULT_LOG_FUNCTION_IMPLEMENTATION(func_name, log_level) \
+template<typename... Args> \
+void LogSystem::func_name(const std::format_string<Args...> fmt, Args&&... args) { \
+  m_logger.log(log_level, std::vformat(fmt.get(), std::make_format_args(args...))); \
+}
+
+LOGSYSTEM_DEFAULT_LOG_FUNCTION_IMPLEMENTATION(fatal, LogLevel::FATAL);
+LOGSYSTEM_DEFAULT_LOG_FUNCTION_IMPLEMENTATION(error, LogLevel::ERROR);
+LOGSYSTEM_DEFAULT_LOG_FUNCTION_IMPLEMENTATION(warn,  LogLevel::WARN);
+LOGSYSTEM_DEFAULT_LOG_FUNCTION_IMPLEMENTATION(info,  LogLevel::INFO);
+LOGSYSTEM_DEFAULT_LOG_FUNCTION_IMPLEMENTATION(debug, LogLevel::DEBUG);
 
 #endif

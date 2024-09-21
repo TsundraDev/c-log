@@ -10,11 +10,28 @@
 #include <tools/Log/Logger.hpp>
 
 // -------------------------------------------------------------------------------------------------
+// -- LogSystem default logging
+// -------------------------------------------------------------------------------------------------
+bool    LogSystem::m_init    = false;
+LogBook LogSystem::m_logbook = LogBook(LogLevel::INFO);
+Logger  LogSystem::m_logger  = Logger();
+
+void LogSystem::setLogLevel(LogLevel level) {
+  m_logbook.setLevel(level);
+}
+
+
+// -------------------------------------------------------------------------------------------------
 // -- LogSystem constructor and destructor
 // -------------------------------------------------------------------------------------------------
 LogSystem::LogSystem() :
   m_logbook_list(std::vector<std::pair<bool, LogBook>>()),
-  m_logger_list(std::vector<std::pair<bool, Logger>>()) {}
+  m_logger_list(std::vector<std::pair<bool, Logger>>()) {
+  if (!m_init) {
+    m_logger.addLogBook(&m_logbook);
+    m_init = true;
+  }
+}
 
 LogSystem::~LogSystem() {
   this->clearLoggerList();

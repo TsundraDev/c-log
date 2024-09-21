@@ -124,11 +124,11 @@ bool LogBook::output() {
 std::string LogBook::logEntryString(LogEntry log_entry) {
   std::string buffer;
   switch (log_entry.level) {
-    case LogLevel::FATAL   : buffer = "[FATAL] "; break;
-    case LogLevel::ERROR   : buffer = "[ERROR] "; break;
-    case LogLevel::WARNING : buffer = "[ WARN] "; break;
-    case LogLevel::INFO    : buffer = "[ INFO] "; break;
-    case LogLevel::DEBUG   : buffer = "[DEBUG] "; break;
+    case LogLevel::FATAL : buffer = "[FATAL] "; break;
+    case LogLevel::ERROR : buffer = "[ERROR] "; break;
+    case LogLevel::WARN  : buffer = "[ WARN] "; break;
+    case LogLevel::INFO  : buffer = "[ INFO] "; break;
+    case LogLevel::DEBUG : buffer = "[DEBUG] "; break;
   }
 
   if (log_entry.tag.module() != "") {

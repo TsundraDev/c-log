@@ -7,10 +7,9 @@ int main() {
   printf("c-log\n");
 
   LogSystem log = LogSystem();
-  LogBookID logbook = log.addLogBook(LogLevel::INFO);
-  LoggerID  logger  = log.addLogger();
-  log.link(logbook, logger);
-  log.warning(logger, "Hello");
+
+  log.setLogLevel(LogLevel::FATAL);
+  log.warn("Warning warning");
 
   return 0;
 }
