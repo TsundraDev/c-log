@@ -29,17 +29,19 @@ public:
   LogSystem();
   ~LogSystem();
 
-  // Manage LogBook list and Logger list
+  // Manage LogBook list
   LogBookID addLogBook(LogLevel level);
   LogBookID addLogBook(LogLevel level, std::string outfile);
   void removeLogBook(LogBookID logbook);
   void clearLogBookList();
 
+  // Manage Logger list
   LoggerID addLogger();
   LoggerID addLogger(LogTag tag);
   void removeLogger(LoggerID logger);
   void clearLoggerList();
 
+  // Linking Logger to LogBook
   bool link(LogBookID logbook, LoggerID logger);
   bool unlink(LogBookID logbook, LoggerID logger);
 

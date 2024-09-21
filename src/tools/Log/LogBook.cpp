@@ -138,9 +138,3 @@ std::string LogBook::logEntryString(LogEntry log_entry) {
   buffer += log_entry.message;
   return buffer;
 }
-
-
-// -------------------------------------------------------------------------------------------------
-// -- Getters
-// -------------------------------------------------------------------------------------------------
-std::string LogBook::outfile() { return m_outfile; }

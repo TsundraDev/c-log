@@ -23,9 +23,10 @@ LogSystem::~LogSystem() {
 
 
 // -------------------------------------------------------------------------------------------------
-// -- Manage LogBook list and Logger list
+// -- Manage LogBook list
 // -------------------------------------------------------------------------------------------------
 LogBookID LogSystem::addLogBook(LogLevel level) {
+  // Check for LogBook with duplicate outfile
   for (uint64_t i = 0; i < m_logbook_list.size(); i++) {
     if (m_logbook_list[i].first && m_logbook_list[i].second.outfile() == "") {
       fprintf(stderr,
@@ -36,7 +37,9 @@ LogBookID LogSystem::addLogBook(LogLevel level) {
   m_logbook_list.push_back(std::pair<bool, LogBook>(true, LogBook(level)));
   return m_logbook_list.size() - 1;
 }
+
 LogBookID LogSystem::addLogBook(LogLevel level, std::string outfile) {
+  // Check for LogBook with duplicate outfile
   for (uint64_t i = 0; i < m_logbook_list.size(); i++) {
     if (m_logbook_list[i].first && m_logbook_list[i].second.outfile() == outfile) {
       fprintf(stderr,
@@ -61,6 +64,10 @@ void LogSystem::clearLogBookList() {
   m_logbook_list.clear();
 }
 
+
+// -------------------------------------------------------------------------------------------------
+// -- Manage Logger list
+// -------------------------------------------------------------------------------------------------
 LoggerID LogSystem::addLogger() {
   m_logger_list.push_back(std::pair<bool, Logger>(true, Logger()));
   return m_logger_list.size() - 1;
@@ -82,6 +89,10 @@ void LogSystem::clearLoggerList() {
   m_logger_list.clear();
 }
 
+
+// -------------------------------------------------------------------------------------------------
+// -- Linking Logger to LogBook
+// -------------------------------------------------------------------------------------------------
 bool LogSystem::link(LogBookID logbook, LoggerID logger) {
   // Sanity check
   assert(logbook < (int64_t)m_logbook_list.size());

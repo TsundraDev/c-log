@@ -27,6 +27,10 @@ public:
   LogBook(LogLevel level, std::string outfile);
   ~LogBook();
 
+  // Getters
+  LogLevel    level()   { return m_level;   }
+  std::string outfile() { return m_outfile; }
+
   // Manage Logger list
   bool addLogger(Logger* logger);
   bool removeLogger(Logger* logger);
@@ -35,9 +39,6 @@ public:
   // Manage LogEntry
   void log(LogLevel level, LogTag tag, std::string message);
   bool output();
-
-  // Getters
-  std::string outfile();
 
 private:
   std::string logEntryString(LogEntry log_entry);

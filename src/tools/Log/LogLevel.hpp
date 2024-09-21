@@ -12,14 +12,11 @@ public:
   operator Enum() const { return m_e; }
   explicit operator bool() const = delete;
 
-
 private:
   Enum m_e;
 
 public:
-  bool important(Enum log_check) {
-    return m_e <= log_check;
-  }
+  bool important(Enum log_check) { return m_e <= log_check; }
 };
 
 #endif
