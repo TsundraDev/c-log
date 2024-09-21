@@ -36,6 +36,9 @@ public:
   void log(LogLevel level, LogTag tag, std::string message);
   bool output();
 
+  // Getters
+  std::string outfile();
+
 private:
   std::string logEntryString(LogEntry log_entry);
 };
