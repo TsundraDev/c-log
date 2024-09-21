@@ -50,7 +50,7 @@ bool LogBook::addLogger(Logger* logger) {
   for (it = m_logger_list.begin(); it != m_logger_list.end(); it++) {
     if ((*it) == logger) {
       // Duplicate found
-      fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to add duplicate Logger to LogBook\n");
+      fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to add duplicate Logger\n");
       return false;
     }
   }
@@ -73,7 +73,7 @@ bool LogBook::removeLogger(Logger* logger) {
     }
   }
 
-  fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to remove unknown Logger from LogBook\n");
+  fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to remove unknown Logger\n");
   return false;
 }
 
