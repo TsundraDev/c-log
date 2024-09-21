@@ -27,10 +27,8 @@ LogBook::LogBook(LogLevel level, std::string outfile) :
   m_logbook(std::queue<LogEntry>()) {}
 
 LogBook::~LogBook() {
-  // Sanity check
-  assert(m_logger_list.empty());
-
   this->output();
+  this->clearLogger();
 
   // Check for lost data
   if (!m_logbook.empty()) {
