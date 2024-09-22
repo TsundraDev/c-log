@@ -9,8 +9,6 @@
 #include <tools/Log/LogLevel.hpp>
 #include <tools/Log/Logger.hpp>
 
-class Logger;
-
 // -------------------------------------------------------------------------------------------------
 // -- LogBook constructor and destructor
 // -------------------------------------------------------------------------------------------------
@@ -27,6 +25,7 @@ LogBook::LogBook(LogLevel level, std::string outfile) :
   m_logbook(std::queue<LogEntry>()) {}
 
 LogBook::~LogBook() {
+  // Output all LogEntry and remove Logger
   this->output();
   this->clearLogger();
 
@@ -67,6 +66,7 @@ bool LogBook::removeLogger(Logger* logger) {
   for (it = m_logger_list.begin(); it != m_logger_list.end(); it++) {
     if ((*it) == logger) {
       // Logger found
+      logger->removeLogBook(this);
       m_logger_list.erase(it);
       return true;
     }

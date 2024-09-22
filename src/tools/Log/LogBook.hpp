@@ -22,16 +22,16 @@ private:
   std::queue<LogEntry> m_logbook;
 
 public:
-  // LogBook constructor and destructor
-  LogBook(LogLevel level);
-  LogBook(LogLevel level, std::string outfile);
-  ~LogBook();
-
   // Getters and setters
   LogLevel    level()                         { return m_level;       }
   std::string outfile()                       { return m_outfile;     }
   void        setLevel(LogLevel level)        { m_level = level;      }
   void        setOutfile(std::string outfile) { m_outfile = outfile;  }
+
+  // LogBook constructor and destructor
+  LogBook(LogLevel level);
+  LogBook(LogLevel level, std::string outfile);
+  ~LogBook();
 
   // Manage Logger list
   bool addLogger(Logger* logger);

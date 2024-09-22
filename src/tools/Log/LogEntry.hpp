@@ -10,8 +10,8 @@
 // -- LogEntry class
 // -------------------------------------------------------------------------------------------------
 typedef struct {
-  LogLevel level;
-  LogTag   tag;
+  LogLevel    level;
+  LogTag      tag;
   std::string message;
 } LogEntry;
 
