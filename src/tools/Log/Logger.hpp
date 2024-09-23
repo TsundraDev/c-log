@@ -28,6 +28,8 @@ public:
   bool removeLogBook(LogBook* logbook);
   void clearLogBookList();
 
+  bool removeLogBookEntry(LogBook* logbook);
+
   // Logging
   void log(LogLevel level, std::string message);
 };

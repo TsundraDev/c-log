@@ -38,6 +38,8 @@ public:
   bool removeLogger(Logger* logger);
   void clearLogger();
 
+  bool removeLoggerEntry(Logger* logger);
+
   // Manage LogEntry
   void log(LogLevel level, LogTag tag, std::string message);
   bool output();

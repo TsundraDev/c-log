@@ -66,7 +66,7 @@ bool LogBook::removeLogger(Logger* logger) {
   for (it = m_logger_list.begin(); it != m_logger_list.end(); it++) {
     if ((*it) == logger) {
       // Logger found
-      logger->removeLogBook(this);
+      logger->removeLogBookEntry(this);
       m_logger_list.erase(it);
       return true;
     }
@@ -81,6 +81,24 @@ void LogBook::clearLogger() {
     m_logger_list.front()->removeLogBook(this);
     m_logger_list.pop_front();
   }
+}
+
+bool LogBook::removeLoggerEntry(Logger* logger) {
+  // Sanity check
+  assert(logger != nullptr);
+
+  // Find Logger
+  std::list<Logger*>::iterator it;
+  for (it = m_logger_list.begin(); it != m_logger_list.end(); it++) {
+    if ((*it) == logger) {
+      // Logger found
+      m_logger_list.erase(it);
+      return true;
+    }
+  }
+
+  fprintf(stderr, "[ WARN] [C-LOG] [LOGBOOK] - Attempted to remove unknown Logger\n");
+  return false;
 }
 
 
