@@ -5,8 +5,8 @@
 #include <queue>
 #include <string>
 
-#include <tools/Log/LogEntry.hpp>
-#include <tools/Log/LogLevel.hpp>
+#include "LogEntry.hpp"
+#include "LogLevel.hpp"
 
 class Logger;
 

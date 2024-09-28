@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include <tools/Log/LogLevel.hpp>
-#include <tools/Log/LogTag.hpp>
+#include "LogLevel.hpp"
+#include "LogTag.hpp"
 
 // -------------------------------------------------------------------------------------------------
 // -- LogEntry class

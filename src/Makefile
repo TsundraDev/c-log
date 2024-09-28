@@ -23,7 +23,8 @@ LD_FLAGS =
 ## -- Generated files
 ## -------------------------------------------------------------------------------------------------
 SRC  = main.cpp
-SRC += tools.cpp
+
+MOD  = tools.mod
 
 DEP  = $(patsubst %.cpp,../build/dep/%.d,$(SRC))
 OBJ  = $(patsubst %.cpp,../build/obj/%.o,$(SRC))
@@ -33,10 +34,11 @@ EXEC = ../build/c-log
 ## -------------------------------------------------------------------------------------------------
 ## -- Commands + default
 ## -------------------------------------------------------------------------------------------------
-.PHONY : all dirs depend build run clean purge
+.PHONY : all dirs modules depend build run clean purge
 
 all :
 	@$(MAKE) --no-print-directory dirs
+	@$(MAKE) --no-print-directory modules
 	@$(MAKE) --no-print-directory depend
 	@$(MAKE) --no-print-directory build
 
@@ -49,10 +51,25 @@ dirs :
 	mkdir -p ../build/
 
 	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
+	mkdir -p ../build/mod/
+
+	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
 	mkdir -p ../build/dep/
 
 	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
 	mkdir -p ../build/obj/
+
+
+## -------------------------------------------------------------------------------------------------
+## -- Building modules
+## -------------------------------------------------------------------------------------------------
+modules : $(MOD)
+
+%.mod : %/Makefile
+	@printf "%b%b%b%b%b" $(YELLOW) "[MODUL] " $(patsubst %.mod,%,$@) "\n" $(RESET_COLOR)
+	@$(MAKE) --no-print-directory -C $(patsubst %.mod,%,$@)
+	@mv $(patsubst %.mod,%,$@)/$(patsubst %.mod,%,$@) ../build/mod/$(patsubst %.mod,%.o,$@)
+
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -61,10 +78,6 @@ dirs :
 depend : $(DEP)
 
 ../build/dep/%.d : %.cpp
-	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
-	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
-
-../build/dep/%.d : tools/%.cpp
 	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
 	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
 
@@ -82,7 +95,7 @@ build :
 	@# Link object files
 	@printf "%b%b%b" $(YELLOW) "[ LINK] Start linking\n" $(RESET_COLOR)
 	@printf "%b%b%b" $(YELLOW) "[ LINK] " $(RESET_COLOR)
-	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
+	$(LD) $(LD_FLAGS) $(OBJ) $(patsubst %.mod,../build/mod/%.o,$(MOD)) -o $(EXEC)
 	@printf "%b%b%b" $(GREEN) "[BUILD] Executable built" $(RESET_COLOR)
 
 

@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
-#include <tools/Log/LogBook.hpp>
-#include <tools/Log/Logger.hpp>
+#include "LogBook.hpp"
+#include "Logger.hpp"
 
 // -------------------------------------------------------------------------------------------------
 // -- LogSystem class

@@ -4,8 +4,8 @@
 // -------------------------------------------------------------------------------------------------
 // -- Log header files
 // -------------------------------------------------------------------------------------------------
-#include <tools/Log/LogLevel.hpp>
-#include <tools/Log/LogSystem.hpp>
-#include <tools/Log/LogTag.hpp>
+#include "Log/LogLevel.hpp"
+#include "Log/LogSystem.hpp"
+#include "Log/LogTag.hpp"
 
 #endif

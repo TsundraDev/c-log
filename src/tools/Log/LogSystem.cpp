@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include <tools/Log/LogBook.hpp>
-#include <tools/Log/Logger.hpp>
+#include <Log/LogBook.hpp>
+#include <Log/Logger.hpp>
 
 // -------------------------------------------------------------------------------------------------
 // -- LogSystem default logging

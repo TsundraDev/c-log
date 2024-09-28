@@ -5,9 +5,9 @@
 #include <queue>
 #include <string>
 
-#include <tools/Log/LogEntry.hpp>
-#include <tools/Log/LogLevel.hpp>
-#include <tools/Log/Logger.hpp>
+#include <Log/LogEntry.hpp>
+#include <Log/LogLevel.hpp>
+#include <Log/Logger.hpp>
 
 // -------------------------------------------------------------------------------------------------
 // -- LogBook constructor and destructor
