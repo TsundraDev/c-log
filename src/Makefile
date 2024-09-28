@@ -37,6 +37,7 @@ EXEC = ../build/c-log
 
 all :
 	@$(MAKE) --no-print-directory dirs
+	@$(MAKE) --no-print-directory depend
 	@$(MAKE) --no-print-directory build
 
 
