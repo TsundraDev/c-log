@@ -37,9 +37,16 @@ EXEC = ../build/c-log
 .PHONY : all dirs modules depend build run clean purge
 
 all :
+	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build directory\n" $(RESET_COLOR)
 	@$(MAKE) --no-print-directory dirs
+
+	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build modules\n" $(RESET_COLOR)
 	@$(MAKE) --no-print-directory modules
+
+	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build dependencies\n" $(RESET_COLOR)
 	@$(MAKE) --no-print-directory depend
+
+	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build executable\n" $(RESET_COLOR)
 	@$(MAKE) --no-print-directory build
 
 
