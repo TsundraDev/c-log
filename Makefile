@@ -9,32 +9,34 @@ RESET_COLOR = "\e[0m"
 
 
 ## -------------------------------------------------------------------------------------------------
-## -- Commands
+## -- Project directories
 ## -------------------------------------------------------------------------------------------------
-.PHONY : all dirs build run clean purge
+DIR  = ./build/
+DIR += ./build/dep/
+DIR += ./build/mod/
+DIR += ./build/obj/
 
-all : dirs build
 
-dirs :
-	@# Build project directory
-	@printf "%b[ MAKE] Build directory\n%b" $(YELLOW) $(RESET_COLOR)
+## -------------------------------------------------------------------------------------------------
+## -- Commands + default
+## -------------------------------------------------------------------------------------------------
+.PHONY : all build run clean purge
+
+all : $(DIR) build
+
+
+## -------------------------------------------------------------------------------------------------
+## -- Build project directories
+## -------------------------------------------------------------------------------------------------
+./% :
 	@printf "%b[  DIR] %b" $(YELLOW) $(RESET_COLOR)
-	mkdir -p build/
+	mkdir -p $@
 
-	@printf "%b[  DIR] %b" $(YELLOW) $(RESET_COLOR)
-	mkdir -p build/dep/
 
-	@printf "%b[  DIR] %b" $(YELLOW) $(RESET_COLOR)
-	mkdir -p build/mod/
-
-	@printf "%b[  DIR] %b" $(YELLOW) $(RESET_COLOR)
-	mkdir -p build/obj/
-
-	@printf "\n"
-
+## -------------------------------------------------------------------------------------------------
+## -- Build, run and clean project
+## -------------------------------------------------------------------------------------------------
 build :
-	@# Build executable
-	@printf "%b[ MAKE] Build executable\n%b" $(YELLOW) $(RESET_COLOR)
 	@$(MAKE) --no-print-directory -C src build
 
 run :
