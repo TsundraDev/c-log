@@ -40,22 +40,22 @@ MOD_OBJ = tools
 ## -------------------------------------------------------------------------------------------------
 build :
 	@# Compile source files
-	@printf "\t%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
+	@printf "%b    [  DIR] %b" $(YELLOW) $(RESET_COLOR)
 	mkdir -p obj
-	@printf "\t%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
+	@printf "%b    [  DIR] %b" $(YELLOW) $(RESET_COLOR)
 	mkdir -p obj/Log
 
 	@# Compile source files
-	@printf "\t%b%b%b" $(YELLOW) "[CMPIL] Start compiling\n" $(RESET_COLOR)
+	@printf "%b    [CMPIL] Start compiling\n%b" $(YELLOW) $(RESET_COLOR)
 	@$(MAKE) --no-print-directory $(OBJ)
 
 	@# Link object files
-	@printf "\t%b%b%b" $(YELLOW) "[ LINK] " $(RESET_COLOR)
+	@printf "%b    [ LINK] %b" $(YELLOW) $(RESET_COLOR)
 	g++ -r $(OBJ) -o $(MOD_OBJ)
 
 
 	@# Remove object files
-	@printf "\t%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
+	@printf "%b    [CLEAN] %b" $(RED) $(RESET_COLOR)
 	rm -rf obj/
 
 
@@ -63,7 +63,7 @@ build :
 ## -- Compile source files into object files
 ## -------------------------------------------------------------------------------------------------
 ./obj/Log/%.o : Log/%.cpp
-	@printf "\t%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
+	@printf "%b    [CMPIL] %b" $(YELLOW) $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
 

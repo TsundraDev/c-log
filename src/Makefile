@@ -34,69 +34,39 @@ EXEC = ../build/c-log
 ## -------------------------------------------------------------------------------------------------
 ## -- Commands + default
 ## -------------------------------------------------------------------------------------------------
-.PHONY : all dirs modules depend build run clean purge
+.PHONY : all build run clean
 
-all :
-	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build directory\n" $(RESET_COLOR)
-	@$(MAKE) --no-print-directory dirs
-
-	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build modules\n" $(RESET_COLOR)
-	@$(MAKE) --no-print-directory modules
-
-	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build dependencies\n" $(RESET_COLOR)
-	@$(MAKE) --no-print-directory depend
-
-	@printf "%b%b%b" $(YELLOW) "[ MAKE] Build executable\n" $(RESET_COLOR)
-	@$(MAKE) --no-print-directory build
+all : $(MOD) build
 
 
 ## -------------------------------------------------------------------------------------------------
-## -- Project setup
+## -- Build dependencies
 ## -------------------------------------------------------------------------------------------------
-dirs :
-	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
-	mkdir -p ../build/
+../build/dep/%.d : %.cpp
+	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
+	$(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@
 
-	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
-	mkdir -p ../build/mod/
-
-	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
-	mkdir -p ../build/dep/
-
-	@printf "%b%b%b" $(YELLOW) "[  DIR] " $(RESET_COLOR)
-	mkdir -p ../build/obj/
+-include $(DEP)
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -- Building modules
 ## -------------------------------------------------------------------------------------------------
-modules : $(MOD)
-
 %.mod : %/Makefile
-	@printf "%b%b%b%b%b" $(YELLOW) "[MODUL] " $(patsubst %.mod,%,$@) "\n" $(RESET_COLOR)
+	@printf "%b[MODUL] $(patsubst %.mod,%,$@)%b\n" $(YELLOW) $(RESET_COLOR)
 	@$(MAKE) --no-print-directory -C $(patsubst %.mod,%,$@)
 	@mv $(patsubst %.mod,%,$@)/$(patsubst %.mod,%,$@) ../build/mod/$(patsubst %.mod,%.o,$@)
 
 
 
 ## -------------------------------------------------------------------------------------------------
-## -- Build dependencies
-## -------------------------------------------------------------------------------------------------
-depend : $(DEP)
-
-../build/dep/%.d : %.cpp
-	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
-	if [ -d "../build/" ]; then $(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@; fi
-
--include $(DEP)
-
-
-## -------------------------------------------------------------------------------------------------
 ## -- Link object files into executable
 ## -------------------------------------------------------------------------------------------------
-build :
+build : $(MOD)
+	@printf "%b[ MAKE] Build executable\n%b" $(YELLOW) $(RESET_COLOR)
+
 	@# Compile source files
-	@printf "%b%b%b" $(YELLOW) "[CMPIL] Start compiling\n" $(RESET_COLOR)
+	@printf "%b    [CMPIL] Start compiling\n%b" $(YELLOW) "" $(RESET_COLOR)
 	@$(MAKE) --no-print-directory $(OBJ)
 	
 	@# Link object files
@@ -122,7 +92,7 @@ build :
 ## -- Run executable
 ## -------------------------------------------------------------------------------------------------
 run :
-	@printf "%b%b%b" $(BLUE) "[  RUN] " $(RESET_COLOR)
+	@printf "%b[  RUN] %b" $(BLUE) $(RESET_COLOR)
 	./$(EXEC)
 
 
@@ -138,9 +108,5 @@ clean :
 
 	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
 	rm -rf $(EXEC)
-
-purge :
-	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
-	rm -rf ../build/
 
 
