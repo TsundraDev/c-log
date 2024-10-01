@@ -23,8 +23,9 @@ LD_FLAGS =
 ## -- Generated files
 ## -------------------------------------------------------------------------------------------------
 SRC  = main.cpp
-
-MOD  = tools.mod
+SRC += LogBook.cpp
+SRC += Logger.cpp
+SRC += LogSystem.cpp
 
 DEP  = $(patsubst %.cpp,../build/dep/%.d,$(SRC))
 OBJ  = $(patsubst %.cpp,../build/obj/%.o,$(SRC))
@@ -36,7 +37,7 @@ EXEC = ../build/c-log
 ## -------------------------------------------------------------------------------------------------
 .PHONY : all build run clean
 
-all : $(MOD) build
+all : build
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -50,29 +51,19 @@ all : $(MOD) build
 
 
 ## -------------------------------------------------------------------------------------------------
-## -- Building modules
-## -------------------------------------------------------------------------------------------------
-%.mod : %/Makefile
-	@printf "%b[MODUL] $(patsubst %.mod,%,$@)%b\n" $(YELLOW) $(RESET_COLOR)
-	@$(MAKE) --no-print-directory -C $(patsubst %.mod,%,$@)
-	@mv $(patsubst %.mod,%,$@)/$(patsubst %.mod,%,$@) ../build/mod/$(patsubst %.mod,%.o,$@)
-
-
-
-## -------------------------------------------------------------------------------------------------
 ## -- Link object files into executable
 ## -------------------------------------------------------------------------------------------------
-build : $(MOD)
+build :
 	@printf "%b[ MAKE] Build executable\n%b" $(YELLOW) $(RESET_COLOR)
 
 	@# Compile source files
-	@printf "%b    [CMPIL] Start compiling\n%b" $(YELLOW) "" $(RESET_COLOR)
+	@printf "%b[CMPIL] Start compiling\n%b" $(YELLOW) $(RESET_COLOR)
 	@$(MAKE) --no-print-directory $(OBJ)
 	
 	@# Link object files
 	@printf "%b%b%b" $(YELLOW) "[ LINK] Start linking\n" $(RESET_COLOR)
 	@printf "%b%b%b" $(YELLOW) "[ LINK] " $(RESET_COLOR)
-	$(LD) $(LD_FLAGS) $(OBJ) $(patsubst %.mod,../build/mod/%.o,$(MOD)) -o $(EXEC)
+	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
 	@printf "%b%b%b" $(GREEN) "[BUILD] Executable built" $(RESET_COLOR)
 
 
@@ -83,7 +74,7 @@ build : $(MOD)
 	@printf "%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
-../build/obj/%.o : tools/%.cpp
+../build/obj/%.o : Log/%.cpp
 	@printf "%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
