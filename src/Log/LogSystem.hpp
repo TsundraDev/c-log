@@ -1,5 +1,5 @@
-#ifndef __TOOLS__LOG__LOGSYSTEM_HPP__
-#define __TOOLS__LOG__LOGSYSTEM_HPP__
+#ifndef __LOG__LOGSYSTEM_HPP__
+#define __LOG__LOGSYSTEM_HPP__
 
 #include <cassert>
 #include <cstdint>

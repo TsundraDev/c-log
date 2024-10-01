@@ -100,3 +100,5 @@ void Logger::log(LogLevel level, std::string message) {
     (*it)->log(level, m_tag, message);
   }
 }
+
+

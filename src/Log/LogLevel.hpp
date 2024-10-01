@@ -1,5 +1,5 @@
-#ifndef __TOOLS__LOG__LOGLEVEL_HPP__
-#define __TOOLS__LOG__LOGLEVEL_HPP__
+#ifndef __LOG__LOGLEVEL_HPP__
+#define __LOG__LOGLEVEL_HPP__
 
 // -------------------------------------------------------------------------------------------------
 // -- LogLevel enum

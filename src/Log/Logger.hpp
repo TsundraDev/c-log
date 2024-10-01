@@ -1,5 +1,5 @@
-#ifndef __TOOLS__LOG__LOGGER_HPP__
-#define __TOOLS__LOG__LOGGER_HPP__
+#ifndef __LOG__LOGGER_HPP__
+#define __LOG__LOGGER_HPP__
 
 #include <list>
 #include <string>
@@ -33,4 +33,5 @@ public:
   // Logging
   void log(LogLevel level, std::string message);
 };
+
 #endif

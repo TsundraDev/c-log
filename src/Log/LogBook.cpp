@@ -78,7 +78,7 @@ bool LogBook::removeLogger(Logger* logger) {
 
 void LogBook::clearLogger() {
   while (!m_logger_list.empty()) {
-    m_logger_list.front()->removeLogBook(this);
+    m_logger_list.front()->removeLogBookEntry(this);
     m_logger_list.pop_front();
   }
 }

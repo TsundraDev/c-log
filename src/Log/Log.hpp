@@ -1,5 +1,5 @@
-#ifndef __TOOLS__LOG_HPP__
-#define __TOOLS__LOG_HPP__
+#ifndef __LOG__LOG_HPP__
+#define __LOG__LOG_HPP__
 
 // -------------------------------------------------------------------------------------------------
 // -- Log header files

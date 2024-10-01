@@ -1,5 +1,5 @@
-#ifndef __TOOLS__LOG__LOGBOOK_HPP__
-#define __TOOLS__LOG__LOGBOOK_HPP__
+#ifndef __LOG__LOGBOOK_HPP__
+#define __LOG__LOGBOOK_HPP__
 
 #include <list>
 #include <queue>
