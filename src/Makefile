@@ -27,7 +27,7 @@ SRC += LogBook.cpp
 SRC += Logger.cpp
 SRC += LogSystem.cpp
 
-DEP  = $(patsubst %.cpp,../build/dep/%.d,$(SRC))
+DEP  = $(patsubst %.cpp,../build/dep/%.dep,$(SRC))
 OBJ  = $(patsubst %.cpp,../build/obj/%.o,$(SRC))
 EXEC = ../build/c-log
 
@@ -43,40 +43,39 @@ all : build
 ## -------------------------------------------------------------------------------------------------
 ## -- Build dependencies
 ## -------------------------------------------------------------------------------------------------
-../build/dep/%.d : %.cpp
-	@printf "%b%b%b" $(YELLOW) "[  DEP] " $(RESET_COLOR)
+../build/dep/%.dep : %.cpp
+	@printf "%b[  DEP] %b" $(YELLOW) $(RESET_COLOR)
 	$(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@
 
+../build/dep/%.dep : Log/%.cpp
+	@printf "%b[  DEP] %b" $(YELLOW) $(RESET_COLOR)
+	$(CC) -MM -MT ../build/obj/$(patsubst Log/%.cpp,%.o,$<) $^ -o $@
+
+# Automatically include dependencies
 -include $(DEP)
-
-
-## -------------------------------------------------------------------------------------------------
-## -- Link object files into executable
-## -------------------------------------------------------------------------------------------------
-build :
-	@printf "%b[ MAKE] Build executable\n%b" $(YELLOW) $(RESET_COLOR)
-
-	@# Compile source files
-	@printf "%b[CMPIL] Start compiling\n%b" $(YELLOW) $(RESET_COLOR)
-	@$(MAKE) --no-print-directory $(OBJ)
-	
-	@# Link object files
-	@printf "%b%b%b" $(YELLOW) "[ LINK] Start linking\n" $(RESET_COLOR)
-	@printf "%b%b%b" $(YELLOW) "[ LINK] " $(RESET_COLOR)
-	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
-	@printf "%b%b%b" $(GREEN) "[BUILD] Executable built" $(RESET_COLOR)
 
 
 ## -------------------------------------------------------------------------------------------------
 ## -- Compile source files into object files
 ## -------------------------------------------------------------------------------------------------
 ../build/obj/%.o : %.cpp
-	@printf "%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
+	@printf "%b[CMPIL] %b" $(YELLOW) $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
 ../build/obj/%.o : Log/%.cpp
-	@printf "%b%b%b" $(YELLOW) "[CMPIL] " $(RESET_COLOR)
+	@printf "%b[CMPIL] %b" $(YELLOW) $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
+
+
+## -------------------------------------------------------------------------------------------------
+## -- Link object files into executable
+## -------------------------------------------------------------------------------------------------
+build : $(OBJ)
+	@# Link object files
+	@printf "%b[ LINK] %b" $(YELLOW) $(RESET_COLOR)
+	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
+
+	@printf "%b[BUILD] Executable built\n%b" $(GREEN) $(RESET_COLOR)
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -91,13 +90,13 @@ run :
 ## -- Clean up
 ## -------------------------------------------------------------------------------------------------
 clean :
-	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
+	@printf "%b[CLEAN] %b" $(RED) $(RESET_COLOR)
 	rm -rf $(DEP)
 
-	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
+	@printf "%b[CLEAN] %b" $(RED) $(RESET_COLOR)
 	rm -rf $(OBJ)
 
-	@printf "%b%b%b" $(RED) "[CLEAN] " $(RESET_COLOR)
+	@printf "%b[CLEAN] %b" $(RED) $(RESET_COLOR)
 	rm -rf $(EXEC)
 
 

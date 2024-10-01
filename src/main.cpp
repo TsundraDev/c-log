@@ -8,7 +8,7 @@ int main() {
 
   LogSystem log = LogSystem();
 
-  log.setLogLevel(LogLevel::FATAL);
+  log.setLogLevel(LogLevel::INFO);
   log.warn("Warning warning");
 
   return 0;
