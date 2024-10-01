@@ -108,6 +108,9 @@ bool LogBook::removeLoggerEntry(Logger* logger) {
 void LogBook::log(LogLevel level, LogTag tag, std::string message) {
   LogEntry log_entry = {level, tag, message};
   m_logbook.push(log_entry);
+
+  // Output if fatal or debug
+  if (level == LogLevel::FATAL || level == LogLevel::DEBUG) this->output();
 }
 
 bool LogBook::output() {
