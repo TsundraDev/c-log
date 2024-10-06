@@ -52,7 +52,7 @@ LogBookID LogSystem::addLogBook(LogLevel level) {
     }
   }
   m_logbook_list.push_back(std::pair<bool, LogBook>(true, LogBook(level)));
-  return m_logbook_list.size() - 1;
+  return { (int8_t)(m_logbook_list.size() - 1) };
 }
 
 LogBookID LogSystem::addLogBook(LogLevel level, std::string outfile) {
@@ -66,15 +66,15 @@ LogBookID LogSystem::addLogBook(LogLevel level, std::string outfile) {
     }
   }
   m_logbook_list.push_back(std::pair<bool, LogBook>(true, LogBook(level, outfile)));
-  return m_logbook_list.size() - 1;
+  return { (int8_t)(m_logbook_list.size() - 1) };
 }
 
 void LogSystem::removeLogBook(LogBookID logbook) {
   // Sanity check
-  assert(logbook < (int64_t)m_logbook_list.size());
+  assert(logbook.id < (int64_t)m_logbook_list.size());
 
-  m_logbook_list[logbook].first = false;
-  m_logbook_list[logbook].second.~LogBook();
+  m_logbook_list[logbook.id].first = false;
+  m_logbook_list[logbook.id].second.~LogBook();
 }
 
 void LogSystem::clearLogBookList() {
@@ -87,19 +87,19 @@ void LogSystem::clearLogBookList() {
 // -------------------------------------------------------------------------------------------------
 LoggerID LogSystem::addLogger() {
   m_logger_list.push_back(std::pair<bool, Logger>(true, Logger()));
-  return m_logger_list.size() - 1;
+  return { (int8_t)(m_logger_list.size() - 1) };
 }
 LoggerID LogSystem::addLogger(LogTag tag) {
   m_logger_list.push_back(std::pair<bool, Logger>(true, Logger(tag)));
-  return m_logger_list.size() - 1;
+  return { (int8_t)(m_logger_list.size() - 1) };
 }
 
 void LogSystem::removeLogger(LoggerID logger) {
   // Sanity check
-  assert(logger < (int64_t)m_logger_list.size());
+  assert(logger.id < (int64_t)m_logger_list.size());
 
-  m_logger_list[logger].first = false;
-  m_logger_list[logger].second.~Logger();
+  m_logger_list[logger.id].first = false;
+  m_logger_list[logger.id].second.~Logger();
 }
 
 void LogSystem::clearLoggerList() {
@@ -112,18 +112,18 @@ void LogSystem::clearLoggerList() {
 // -------------------------------------------------------------------------------------------------
 bool LogSystem::link(LogBookID logbook, LoggerID logger) {
   // Sanity check
-  assert(logbook < (int64_t)m_logbook_list.size());
-  assert(logger < (int64_t)m_logger_list.size());
+  assert(logbook.id < (int64_t)m_logbook_list.size());
+  assert(logger.id < (int64_t)m_logger_list.size());
 
-  return m_logger_list[logger].second.addLogBook(&(m_logbook_list[logbook].second));
+  return m_logger_list[logger.id].second.addLogBook(&(m_logbook_list[logbook.id].second));
 }
 
 bool LogSystem::unlink(LogBookID logbook, LoggerID logger) {
   // Sanity check
-  assert(logbook < (int64_t)m_logbook_list.size());
-  assert(logger < (int64_t)m_logger_list.size());
+  assert(logbook.id < (int64_t)m_logbook_list.size());
+  assert(logger.id < (int64_t)m_logger_list.size());
 
-  return m_logger_list[logger].second.removeLogBook(&(m_logbook_list[logbook].second));
+  return m_logger_list[logger.id].second.removeLogBook(&(m_logbook_list[logbook.id].second));
 }
 
 
@@ -137,8 +137,8 @@ bool LogSystem::output() {
 }
 
 bool LogSystem::output(LogBookID logbook) {
-  assert(logbook < (int64_t)m_logbook_list.size());
+  assert(logbook.id < (int64_t)m_logbook_list.size());
 
-  return m_logbook_list[logbook].second.output();
+  return m_logbook_list[logbook.id].second.output();
 }
 

@@ -13,11 +13,11 @@
 // -------------------------------------------------------------------------------------------------
 // -- LogSystem class
 // -------------------------------------------------------------------------------------------------
-typedef int8_t LogBookID;
-typedef int8_t LoggerID;
+typedef struct { int8_t id; } LogBookID;
+typedef struct { int8_t id; } LoggerID;
 
-#define INVALID_LOGBOOK_ID -1;
-#define INVALID_LOGGER_ID  -1;
+#define INVALID_LOGBOOK_ID {-1};
+#define INVALID_LOGGER_ID  {-1};
 
 
 class LogSystem {
@@ -84,10 +84,10 @@ public:
 #define LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(func_name, log_level) \
 template<typename... Args> \
 void LogSystem::func_name(LoggerID logger, const std::format_string<Args...> fmt, Args&&... args) { \
-  assert(logger < (int64_t)m_logger_list.size()); \
-  assert(m_logger_list[logger].first); \
-  m_logger_list[logger].second.log(log_level, \
-                                   std::vformat(fmt.get(), std::make_format_args(args...))); \
+  assert(logger.id < (int64_t)m_logger_list.size()); \
+  assert(m_logger_list[logger.id].first); \
+  m_logger_list[logger.id].second.log(log_level, \
+                                      std::vformat(fmt.get(), std::make_format_args(args...))); \
 }
 
 LOGSYSTEM_LOG_FUNCTION_IMPLEMENTATION(fatal, LogLevel::FATAL);
