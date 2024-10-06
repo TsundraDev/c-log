@@ -73,6 +73,7 @@ public:
   LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(info);
   LOGSYSTEM_DEFAULT_LOG_FUNCTION_DECLARATION(debug);
 
+  bool output();
   bool output(LogBookID logbook);
   
 };
