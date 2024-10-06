@@ -130,6 +130,12 @@ bool LogSystem::unlink(LogBookID logbook, LoggerID logger) {
 // -------------------------------------------------------------------------------------------------
 // -- Manage LogEntry
 // -------------------------------------------------------------------------------------------------
+bool LogSystem::output() {
+  assert(m_init);
+
+  return m_logbook.output();
+}
+
 bool LogSystem::output(LogBookID logbook) {
   assert(logbook < (int64_t)m_logbook_list.size());
 
