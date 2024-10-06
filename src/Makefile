@@ -32,7 +32,7 @@ DEP  = $(patsubst %.cpp,../build/dep/%.dep,$(SRC))
 OBJ  = $(patsubst %.cpp,../build/obj/%.o,$(SRC))
 EXEC = ../build/c-log
 
-MODULE_FILEPATH = ../mod/c-log
+MODULE_FILEPATH = ../c-log
 MODULE_OBJ = ../build/obj/c-log.o
 MAIN_OBJ = $(patsubst %.cpp,../build/obj/%.o,$(MAIN))
 
@@ -63,7 +63,7 @@ all : build
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
 $(MODULE_OBJ) :
-	@$(MAKE) --no-print-directory -C $(MODULE_FILEPATH) OBJ=../$(MODULE_OBJ)
+	@$(MAKE) --no-print-directory -C $(MODULE_FILEPATH) OBJ=$(MODULE_OBJ)
 
 
 ## -------------------------------------------------------------------------------------------------
