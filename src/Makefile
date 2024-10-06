@@ -63,7 +63,7 @@ all : build
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
 $(MODULE_OBJ) :
-	@$(MAKE) --no-print-directory -C $(MODULE_FILEPATH)
+	@$(MAKE) --no-print-directory -C $(MODULE_FILEPATH) OBJ=../$(MODULE_OBJ)
 
 
 ## -------------------------------------------------------------------------------------------------
