@@ -55,7 +55,10 @@ purge :
 ## -------------------------------------------------------------------------------------------------
 ## -- Testing
 ## -------------------------------------------------------------------------------------------------
-test : test-proj test-module
+test :
+	@$(MAKE) --no-print-directory test-proj
+	@$(MAKE) --no-print-directory test-module
+
 test-proj : purge build run
 test-module : purge build-module run
 
