@@ -2,8 +2,19 @@
 
 c-log is a C++ library which provides logging functionality.
 
-A module is given to include in other projects.
-This module contains a header containing the c-log functionality as well as a Makefile that automatically builds the c-log library. You can detail where the object file will be built, although do note that the directory will be considered from the c-log Makefile pwd.
+## Module
+
+This repo comes equipped with a module to be included with other C++ files.
+The c-log module is self-contained and comes with:
+- an external header file (c-log.hpp)
+- a Makefile which automatically builds the module
+
+Projects using this module can also choose where the module is built by modifying the OBJ target. However, do note that the relative filepath is considered from the c-log module directory
+
+```
+$(MAKE) -C c-log OBJ=[filepath]
+```
+
 
 ## Usage
 
