@@ -4,9 +4,9 @@
 #include <list>
 #include <string>
 
-#include <Log/LogBook.hpp>
-#include <Log/LogLevel.hpp>
-#include <Log/LogTag.hpp>
+#include "LogBook.hpp"
+#include "LogLevel.hpp"
+#include "LogTag.hpp"
 
 // -------------------------------------------------------------------------------------------------
 // -- Logger constructor and destructor

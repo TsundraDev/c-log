@@ -22,7 +22,8 @@ LD_FLAGS =
 ## -------------------------------------------------------------------------------------------------
 ## -- Generated files
 ## -------------------------------------------------------------------------------------------------
-SRC  = main.cpp
+MAIN = main.cpp
+SRC  = $(MAIN)
 SRC += LogBook.cpp
 SRC += Logger.cpp
 SRC += LogSystem.cpp
@@ -31,11 +32,14 @@ DEP  = $(patsubst %.cpp,../build/dep/%.dep,$(SRC))
 OBJ  = $(patsubst %.cpp,../build/obj/%.o,$(SRC))
 EXEC = ../build/c-log
 
+MODULE_FILEPATH = ../mod/c-log
+MODULE_OBJ = ../build/obj/c-log.o
+MAIN_OBJ = $(patsubst %.cpp,../build/obj/%.o,$(MAIN))
 
 ## -------------------------------------------------------------------------------------------------
 ## -- Commands + default
 ## -------------------------------------------------------------------------------------------------
-.PHONY : all build run clean
+.PHONY : all build build-module run clean
 
 all : build
 
@@ -46,10 +50,6 @@ all : build
 ../build/dep/%.dep : %.cpp
 	@printf "%b[  DEP] %b" $(YELLOW) $(RESET_COLOR)
 	$(CC) -MM -MT ../build/obj/$(patsubst %.cpp,%.o,$<) $^ -o $@
-
-../build/dep/%.dep : Log/%.cpp
-	@printf "%b[  DEP] %b" $(YELLOW) $(RESET_COLOR)
-	$(CC) -MM -MT ../build/obj/$(patsubst Log/%.cpp,%.o,$<) $^ -o $@
 
 # Automatically include dependencies
 -include $(DEP)
@@ -62,9 +62,8 @@ all : build
 	@printf "%b[CMPIL] %b" $(YELLOW) $(RESET_COLOR)
 	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
 
-../build/obj/%.o : Log/%.cpp
-	@printf "%b[CMPIL] %b" $(YELLOW) $(RESET_COLOR)
-	$(CC) $(CC_FLAGS) $(CC_INC) -c $< -o $@
+$(MODULE_OBJ) :
+	@$(MAKE) --no-print-directory -C $(MODULE_FILEPATH)
 
 
 ## -------------------------------------------------------------------------------------------------
@@ -74,6 +73,13 @@ build : $(OBJ)
 	@# Link object files
 	@printf "%b[ LINK] %b" $(YELLOW) $(RESET_COLOR)
 	$(LD) $(LD_FLAGS) $(OBJ) -o $(EXEC)
+
+	@printf "%b[BUILD] Executable built\n%b" $(GREEN) $(RESET_COLOR)
+
+build-module : $(MODULE_OBJ) $(MAIN_OBJ)
+	@# Link object files
+	@printf "%b[ LINK] %b" $(YELLOW) $(RESET_COLOR)
+	$(LD) $(LD_FLAGS) $(MODULE_OBJ) $(MAIN_OBJ) -o $(EXEC)
 
 	@printf "%b[BUILD] Executable built\n%b" $(GREEN) $(RESET_COLOR)
 

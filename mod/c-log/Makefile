@@ -1,5 +1,5 @@
 # Modify object file to directory
-OBJ = c-log.o
+OBJ = ../../build/obj/c-log.o
 
 # Module source files
 SRC  = src/LogBook.cpp

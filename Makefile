@@ -19,7 +19,7 @@ DIR += ./build/obj/
 ## -------------------------------------------------------------------------------------------------
 ## -- Commands + default
 ## -------------------------------------------------------------------------------------------------
-.PHONY : all build run clean purge
+.PHONY : all build build-module run clean purge test test-proj test-module
 
 all : build
 
@@ -29,6 +29,9 @@ all : build
 ## -------------------------------------------------------------------------------------------------
 build : $(DIR)
 	@$(MAKE) --no-print-directory -C src build
+
+build-module : $(DIR)
+	@$(MAKE) --no-print-directory -C src build-module
 
 run :
 	@$(MAKE) --no-print-directory -C src run
@@ -47,5 +50,13 @@ purge :
 ./% :
 	@printf "%b[  DIR] %b" $(YELLOW) $(RESET_COLOR)
 	mkdir -p $@
+
+
+## -------------------------------------------------------------------------------------------------
+## -- Testing
+## -------------------------------------------------------------------------------------------------
+test : test-proj test-module
+test-proj : purge build run
+test-module : purge build-module run
 
 

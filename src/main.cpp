@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "Log/Log.hpp"
+#include "c-log.hpp"
 
 int main() {
 
