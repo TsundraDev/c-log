@@ -58,6 +58,9 @@ log.link(logbook2, logger2);    // logger2 -> logbook2
 log.fatal(logger1, "Log1 log"); // Automatically write to logbook1 and logbook2
 log.fatal(logger2, "Log2 log"); // Automatically write to logbook2
 
+log.output(logbook1);
+log.output(logbook2);
+
 // Final result
 // status.log :
 //   [FATAL] Log1 log
