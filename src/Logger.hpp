@@ -1,5 +1,5 @@
-#ifndef __LOG__LOGGER_HPP__
-#define __LOG__LOGGER_HPP__
+#ifndef __C_LOG__LOGGER_HPP__
+#define __C_LOG__LOGGER_HPP__
 
 #include <list>
 #include <string>

@@ -1,5 +1,5 @@
-#ifndef __LOG__LOGENTRY_HPP__
-#define __LOG__LOGENTRY_HPP__
+#ifndef __C_LOG__LOGENTRY_HPP__
+#define __C_LOG__LOGENTRY_HPP__
 
 #include <string>
 

@@ -1,5 +1,5 @@
-#ifndef __LOG__LOGTAG_HPP__
-#define __LOG__LOGTAG_HPP__
+#ifndef __C_LOG__LOGTAG_HPP__
+#define __C_LOG__LOGTAG_HPP__
 
 #include <string>
 
